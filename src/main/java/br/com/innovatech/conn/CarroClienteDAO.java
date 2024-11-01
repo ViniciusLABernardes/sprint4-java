@@ -1,7 +1,7 @@
 package br.com.innovatech.conn;
 
 import br.com.innovatech.dominio.CarroCliente;
-import br.com.innovatech.dominio.Cliente;
+
 import br.com.innovatech.dominio.Problema;
 import br.com.innovatech.dominio.RepositorioCarro;
 
@@ -59,6 +59,7 @@ public class CarroClienteDAO implements RepositorioCarro {
                     pegandoIdCarro.close();
 
                 }catch (SQLException e){
+
                     System.out.println(e.getMessage());
                 }
             }
@@ -66,6 +67,7 @@ public class CarroClienteDAO implements RepositorioCarro {
             System.out.println("Carro inserido com sucesso!");
 
         }catch(SQLException e){
+
             throw new RuntimeException("Não foi possivel inserir os dados" + e);
         }
 
@@ -107,7 +109,7 @@ public class CarroClienteDAO implements RepositorioCarro {
 
     public void atualizarInformacaoCarro(String modelo, String marca, int ano, CarroCliente carroCliente, String login) {
         String comandoBuscarIdCliente = "SELECT id_cliente FROM TB_LOGIN WHERE login = ?";
-        String comandoBuscarIdCarro = "SELECT id_carro FROM TB_CARRO WHERE modelo_carro = ? AND marca = ? AND ano_fabricacao = ?";
+        String comandoBuscarIdCarro = "SELECT id_carro FROM TB_CARRO WHERE UPPER(modelo_carro) = UPPER(?) AND UPPER(marca) = UPPER(?) AND ano_fabricacao = ?";
         String comandoAtualizacao = "UPDATE TB_CARRO SET modelo_carro = ?, marca = ?, ano_fabricacao = ? WHERE id_carro = ? AND id_carro IN (SELECT id_carro FROM TB_CARRO_CLIENTE WHERE id_cliente = ?)";
 
         try {
@@ -161,13 +163,13 @@ public class CarroClienteDAO implements RepositorioCarro {
 
     public void deletarCarro(CarroCliente carro, String login){
 
-        String comandoDelete = "DELETE FROM TB_CARRO " +
+        String comandoDelete = "DELETE FROM TB_CARRO_CLIENTE " +
                 "WHERE id_carro IN (" +
                 "SELECT c.id_carro FROM TB_CARRO c " +
                 "INNER JOIN TB_CARRO_CLIENTE cc ON c.id_carro = cc.id_carro " +
                 "INNER JOIN TB_CLIENTE cl ON cl.id_cliente = cc.id_cliente " +
                 "INNER JOIN TB_LOGIN l ON l.id_cliente = cl.id_cliente " +
-                "WHERE c.modelo_carro = ? AND c.marca = ? AND c.ano_fabricacao = ? AND l.login = ?)";
+                "WHERE UPPER(c.modelo_carro) = UPPER(?) AND UPPER(c.marca) = UPPER(?) AND c.ano_fabricacao = ? AND l.login = ?)";
 
         try{
             PreparedStatement preparandoDelete = conexao.prepareStatement(comandoDelete);

@@ -1,9 +1,12 @@
 package br.com.innovatech.controller.dto;
 
 import br.com.innovatech.dominio.CarroCliente;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DeletarCarroRequest {
+    @JsonProperty
     private CarroCliente carroCliente;
+    @JsonProperty
     private String login;
 
 
@@ -11,9 +14,6 @@ public class DeletarCarroRequest {
         return carroCliente;
     }
 
-    public void setCarroCliente(CarroCliente carroCliente) {
-        this.carroCliente = carroCliente;
-    }
 
     public String getLogin() {
         return login;

@@ -2,7 +2,7 @@ package br.com.innovatech.dominio;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Finalizacao {
+public class Finalizacao  {
 	@JsonProperty
 	private String numeroCartao;
 	@JsonProperty

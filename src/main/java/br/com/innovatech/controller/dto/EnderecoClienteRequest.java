@@ -1,18 +1,16 @@
 package br.com.innovatech.controller.dto;
 
 import br.com.innovatech.dominio.Endereco;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EnderecoClienteRequest {
-
+    @JsonProperty
     private Endereco endereco;
+    @JsonProperty
     private String login;
 
     public Endereco getEndereco() {
         return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
     }
 
     public String getLogin() {

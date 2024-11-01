@@ -17,8 +17,8 @@ public class ClienteService {
         repositorioCliente.inserirCliente(cliente);
         repositorioCliente.fecharConexao();
     }
-    public boolean logarCliente(Cliente cliente){
-        if(repositorioCliente.logarCliente(cliente)){
+    public boolean logarCliente(String login, String senha){
+        if(repositorioCliente.logarCliente(login, senha)){
             repositorioCliente.fecharConexao();
             return true;
         }else{
@@ -30,8 +30,8 @@ public class ClienteService {
         repositorioCliente.inserirEndereco(endereco,login);
         repositorioCliente.fecharConexao();
     }
-    public void realizarPagamento(Cartao cartao, String login, String modeloCarro){
-        repositorioCliente.realizarPagamento(cartao,login,modeloCarro);
+    public void realizarPagamento(Cartao cartao, String login, String modeloCarro, String descricaoProblema){
+        repositorioCliente.realizarPagamento(cartao,login,modeloCarro,descricaoProblema);
         repositorioCliente.fecharConexao();
     }
 

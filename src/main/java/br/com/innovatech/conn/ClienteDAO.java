@@ -52,7 +52,7 @@ public class ClienteDAO implements RepositorioCliente {
 
                     System.out.println("Cadastro realizado com sucesso!");
                 }finally {
-                    // Fechando os PreparedStatement de login e contato
+                    pegandoId.close();
                     if (preparandoInsercao2 != null) preparandoInsercao2.close();
                     if (preparandoInsercao3 != null) preparandoInsercao3.close();
                 }
@@ -67,13 +67,13 @@ public class ClienteDAO implements RepositorioCliente {
         }
 
     }
-    public boolean logarCliente(Cliente cliente){
+    public boolean logarCliente(String login, String senha){
         String comandoVerificacao = "SELECT * FROM TB_LOGIN WHERE login = ? AND senha = ?";
 
         try {
             PreparedStatement  preparandoEstado = conexao.prepareStatement(comandoVerificacao);
-            preparandoEstado.setString(1, cliente.getLogin());
-            preparandoEstado.setString(2,cliente.getSenha());
+            preparandoEstado.setString(1, login);
+            preparandoEstado.setString(2,senha);
 
             ResultSet resultSet = preparandoEstado.executeQuery();
 
@@ -137,12 +137,13 @@ public class ClienteDAO implements RepositorioCliente {
         }
     }
 
-    public void realizarPagamento(Cartao cartao, String login, String modeloCarro){
+    public void realizarPagamento(Cartao cartao, String login, String modeloCarro, String descricaoProblema){
 
         String comandoInsercaoEndereco = "INSERT INTO TB_PAGAMENTO(cvv,id_cliente,id_problema,numero_cartao,validade) VALUES(?,?,?,?,?)";
         String comandoBuscarIdCliente = "SELECT id_cliente FROM TB_LOGIN WHERE login = ?";
-        String comandoBuscarIdProblema = "SELECT p.id_problema FROM TB_PROBLEMA p INNER JOIN TB_CARRO_CLIENTE cc ON p.id_carro = cc.id_carro" +
-                " INNER JOIN TB_CLIENTE c ON c.id_cliente = cc.id_cliente INNER JOIN TB_CARRO ca ON ca.id_carro = cc.id_carro WHERE ca.modelo_carro = ?";
+       String comandoBuscarIdProblema = "SELECT p.id_problema FROM TB_PROBLEMA p INNER JOIN TB_CARRO_CLIENTE cc ON p.id_carro = cc.id_carro" +
+                " INNER JOIN TB_CLIENTE c ON c.id_cliente = cc.id_cliente INNER JOIN TB_CARRO ca ON ca.id_carro = cc.id_carro WHERE UPPER(ca.modelo_carro) = UPPER(?)" +
+                " AND UPPER(p.descricao_problema) LIKE UPPER(?)";
 
         try {
             PreparedStatement buscandoIdCliente = conexao.prepareStatement(comandoBuscarIdCliente);
@@ -156,32 +157,38 @@ public class ClienteDAO implements RepositorioCliente {
             }
 
             buscandoIdProblema.setString(1,modeloCarro);
+            buscandoIdProblema.setString(2,"%" + descricaoProblema + "%");
+
             ResultSet resultadoProblema = buscandoIdProblema.executeQuery();
             int idProblema = 0;
             if(resultadoProblema.next()){
                 idProblema = resultadoProblema.getInt("id_problema");
             }
+            System.out.println("problema " + idProblema);
+
+            PreparedStatement preparandoInsercaoPagamento = conexao.prepareStatement(comandoInsercaoEndereco, new String[]{"id_pagamento"});
+            preparandoInsercaoPagamento.setInt(1,cartao.getCVV());
+            preparandoInsercaoPagamento.setInt(2,idCliente);
+            preparandoInsercaoPagamento.setInt(3,idProblema);
+            preparandoInsercaoPagamento.setString(4,cartao.getNumero());
+            preparandoInsercaoPagamento.setString(5, cartao.getValidade());
+
+            System.out.println(cartao.getCVV());
+            System.out.println(cartao.getNumero());
+            System.out.println(cartao.getValidade());
 
 
-            PreparedStatement preparanInsercaoPagamento = conexao.prepareStatement(comandoInsercaoEndereco);
-            preparanInsercaoPagamento.setInt(1,cartao.getCVV());
-            preparanInsercaoPagamento.setInt(2,idCliente);
-            preparanInsercaoPagamento.setInt(3,idProblema);
-            preparanInsercaoPagamento.setString(4,cartao.getNumero());
-            preparanInsercaoPagamento.setDate(5, Date.valueOf(cartao.getValidade()));
-
-
-
-
-            int pagamentoAdicionado = preparanInsercaoPagamento.executeUpdate();
+            int pagamentoAdicionado = preparandoInsercaoPagamento.executeUpdate();
             if (pagamentoAdicionado > 0) {
                 System.out.println("Pagamento realizado com sucesso!");
             } else {
                 System.out.println("Erro ao realizar pagamento.");
             }
 
-            preparanInsercaoPagamento.close();
+
+            preparandoInsercaoPagamento.close();
             resultadoCliente.close();
+            resultadoProblema.close();
             buscandoIdCliente.close();
             buscandoIdProblema.close();
 
@@ -190,8 +197,6 @@ public class ClienteDAO implements RepositorioCliente {
             throw new RuntimeException(e.getMessage());
         }
     }
-
-
 
     public void fecharConexao(){
         try{

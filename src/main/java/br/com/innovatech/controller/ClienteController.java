@@ -12,6 +12,7 @@ import br.com.innovatech.service.ClienteService;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.sql.SQLException;
 
 @Path("cliente")
 public class ClienteController {
@@ -23,7 +24,6 @@ public class ClienteController {
     }
 
     @POST
-    @Path("/inserir-cliente")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response inserirCliente(Cliente cliente){
         clienteService.inserirCliente(cliente);
@@ -48,24 +48,31 @@ public class ClienteController {
     @POST
     @Path("/realizar-pagamento")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response inserirCartao(RealizarPagClienteRequest request){
+    public Response realizarPagamento(RealizarPagClienteRequest request){
         Cartao cartao  = request.getCartao();
         String login = request.getLogin();
         String modeloCarro = request.getModeloCarro();
-        clienteService.realizarPagamento(cartao,login,modeloCarro);
-        return Response
-                .status(Response.Status.CREATED)
-                .build();
+        String descricaoProblema = request.getDescricaoProblema();
+
+        try {
+            clienteService.realizarPagamento(cartao, login, modeloCarro,descricaoProblema);
+            return Response.status(Response.Status.CREATED).build();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Erro ao realizar pagamento: " + e.getMessage())
+                    .build();
+        }
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
 
-    public Response logarCliente(Cliente cliente){
-        clienteService.logarCliente(cliente);
+    public Response logarCliente(String login, String senha){
+        clienteService.logarCliente(login, senha);
         return Response
                 .status(Response.Status.OK)
-                .entity(cliente.getLogin())
+                .entity(login)
                 .build();
     }
 

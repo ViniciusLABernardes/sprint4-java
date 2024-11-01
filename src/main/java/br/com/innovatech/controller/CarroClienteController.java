@@ -28,7 +28,6 @@ public class CarroClienteController {
     }
 
     @POST
-    @Path("/adicionar-carro")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response inserirCarro(
             CarroClienteRequest request){
@@ -73,7 +72,6 @@ public class CarroClienteController {
     }
 
     @DELETE
-    @Path("/deletar-carro")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deletarCarro(DeletarCarroRequest request){
         CarroCliente carroCliente = request.getCarroCliente();

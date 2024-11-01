@@ -1,30 +1,27 @@
 package br.com.innovatech.controller.dto;
 
-import br.com.innovatech.dominio.Cartao;
+import br.com.innovatech.dominio.Servico;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RealizarPagClienteRequest {
+public class InserirServicoOficinaRequest {
     @JsonProperty
-    private Cartao cartao;
+    private Servico servico;
     @JsonProperty
-    private String login;
+    private String loginOficina;
     @JsonProperty
     private String modeloCarro;
     @JsonProperty
     private String descricaoProblema;
 
-    public Cartao getCartao() {
-        return cartao;
+    public String getLoginOficina() {
+        return loginOficina;
     }
 
 
-    public String getLogin() {
-        return login;
+    public Servico getServico() {
+        return servico;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
 
     public String getModeloCarro() {
         return modeloCarro;
