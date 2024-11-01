@@ -2,6 +2,7 @@ package br.com.innovatech.controller;
 
 import br.com.innovatech.conn.ClienteDAO;
 import br.com.innovatech.controller.dto.EnderecoClienteRequest;
+import br.com.innovatech.controller.dto.LogarClienteRequest;
 import br.com.innovatech.controller.dto.RealizarPagClienteRequest;
 import br.com.innovatech.dominio.Cartao;
 import br.com.innovatech.dominio.Cliente;
@@ -65,17 +66,20 @@ public class ClienteController {
         }
     }
 
-    @GET
+    @POST
+    @Path("/logar")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    public Response logarCliente(LogarClienteRequest request){
+        String login = request.getLogin();
 
-    public Response logarCliente(String login, String senha){
+        String senha = request.getSenha();
         clienteService.logarCliente(login, senha);
         return Response
                 .status(Response.Status.OK)
                 .entity(login)
                 .build();
     }
-
 
 
 }

@@ -4,6 +4,7 @@ import br.com.innovatech.conn.OficinaDAO;
 import br.com.innovatech.controller.dto.InserirOrcamentoOficinaRequest;
 import br.com.innovatech.controller.dto.InserirPecaOficinaRequest;
 import br.com.innovatech.controller.dto.InserirServicoOficinaRequest;
+import br.com.innovatech.controller.dto.LogarOficinaRequest;
 import br.com.innovatech.dominio.*;
 import br.com.innovatech.service.OficinaService;
 
@@ -83,11 +84,14 @@ public class OficinaController {
                 .status(Response.Status.CREATED)
                 .build();
     }
-    @GET
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/logar")
     @Produces(MediaType.APPLICATION_JSON)
 
-    public Response logarOficina(String loginOficina, String senha){
+    public Response logarOficina(LogarOficinaRequest request){
+        String loginOficina = request.getLoginOficina();
+        String senha = request.getSenha();
         oficinaService.logarOficina(loginOficina, senha);
         return Response
                 .status(Response.Status.OK)
