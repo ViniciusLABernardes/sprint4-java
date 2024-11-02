@@ -75,7 +75,8 @@ public class OficinaDAO implements RepositorioOficina {
                 resultSet.getDate("data_abertura"));
                 oficinas.add(oficina);
             }
-
+            resultSet.close();
+            leituraOficinas.close();
             return oficinas;
 
         }catch (SQLException e){
@@ -84,6 +85,34 @@ public class OficinaDAO implements RepositorioOficina {
         }
     }
 
+    public ArrayList<Problema> lerProblemas() {
+        String comandoLeituraProblemas = "SELECT c.modelo_carro,p.descricao_problema,p.quantidade_problema FROM TB_CARRO c INNER JOIN TB_PROBLEMA p ON c.id_carro = p.id_carro";
+
+        ArrayList<Problema> problemas = new ArrayList<>();
+        try{
+
+            PreparedStatement leituraProblemas = conexao.prepareStatement(comandoLeituraProblemas);
+            ResultSet resultSet = leituraProblemas.executeQuery();
+            while(resultSet.next()){
+                Problema problema = new Problema(
+                        resultSet.getString("modelo_carro"),
+                        resultSet.getString("descricao_problema"),
+                        resultSet.getInt("quantidade_problema")
+
+                );
+
+                problemas.add(problema);
+            }
+            resultSet.close();
+            leituraProblemas.close();
+            return problemas;
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 
     public void fecharConexao() {
         try{

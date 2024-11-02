@@ -31,8 +31,8 @@ public class CarroClienteService {
         repositorioCarros.atualizarInformacaoCarro(modelo, marca, ano, carroCliente, login);
         repositorioCarros.fecharConexao();
     }
-    public void deletarCarro(CarroCliente carro, String login){
-        repositorioCarros.deletarCarro(carro, login);
+    public void deletarCarro(String modeloCarro, String login){
+        repositorioCarros.deletarCarro(modeloCarro, login);
         repositorioCarros.fecharConexao();
     }
     public void inserirProblema(Problema problema, String login){

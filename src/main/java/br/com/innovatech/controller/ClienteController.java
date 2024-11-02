@@ -13,7 +13,6 @@ import br.com.innovatech.service.ClienteService;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.SQLException;
 
 @Path("cliente")
 public class ClienteController {
@@ -45,6 +44,7 @@ public class ClienteController {
                 .status(Response.Status.CREATED)
                 .build();
     }
+
 
     @POST
     @Path("/realizar-pagamento")

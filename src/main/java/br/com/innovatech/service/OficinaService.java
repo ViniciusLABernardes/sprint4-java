@@ -29,6 +29,11 @@ public class OficinaService {
         repositorioOficina.fecharConexao();
         return oficinas;
     }
+    public ArrayList<Problema> lerProblemas(){
+        ArrayList<Problema> problemas = repositorioOficina.lerProblemas();
+        repositorioOficina.fecharConexao();
+        return problemas;
+    }
     public void inserirOrcamento(Orcamento orcamento, String modeloCarro, String descricaoProblema){
         repositorioOficina.inserirOrcamento(orcamento, modeloCarro, descricaoProblema);
         repositorioOficina.fecharConexao();

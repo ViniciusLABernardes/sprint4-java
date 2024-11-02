@@ -161,7 +161,7 @@ public class CarroClienteDAO implements RepositorioCarro {
         }
     }
 
-    public void deletarCarro(CarroCliente carro, String login){
+    public void deletarCarro(String modeloCarro, String login){
 
         String comandoDelete = "DELETE FROM TB_CARRO_CLIENTE " +
                 "WHERE id_carro IN (" +
@@ -169,14 +169,13 @@ public class CarroClienteDAO implements RepositorioCarro {
                 "INNER JOIN TB_CARRO_CLIENTE cc ON c.id_carro = cc.id_carro " +
                 "INNER JOIN TB_CLIENTE cl ON cl.id_cliente = cc.id_cliente " +
                 "INNER JOIN TB_LOGIN l ON l.id_cliente = cl.id_cliente " +
-                "WHERE UPPER(c.modelo_carro) = UPPER(?) AND UPPER(c.marca) = UPPER(?) AND c.ano_fabricacao = ? AND l.login = ?)";
+                "WHERE UPPER(c.modelo_carro) = UPPER(?) AND l.login = ?)";
 
         try{
             PreparedStatement preparandoDelete = conexao.prepareStatement(comandoDelete);
-            preparandoDelete.setString(1,carro.getModeloCarro());
-            preparandoDelete.setString(2,carro.getmarca());
-            preparandoDelete.setInt(3,carro.getAno());
-            preparandoDelete.setString(4,login);
+            preparandoDelete.setString(1,modeloCarro);
+
+            preparandoDelete.setString(2,login);
 
             int carroDeletado = preparandoDelete.executeUpdate();
             if (carroDeletado > 0) {

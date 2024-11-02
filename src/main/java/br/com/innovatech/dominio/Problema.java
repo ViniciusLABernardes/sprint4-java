@@ -4,11 +4,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Problema {
 	@JsonProperty
+	private String modeloCarro;
+	@JsonProperty
 	private String descricaoProblema;
 	@JsonProperty
 	private int quantidadeProblema;
 	@JsonProperty
 	Finalizacao finalizacao;
+	public Problema(String modeloCarro, String descricaoProblema, int quantidadeProblema){
+		this.modeloCarro = modeloCarro;
+		this.descricaoProblema = descricaoProblema;
+		this.quantidadeProblema = quantidadeProblema;
+	}
 	public Problema(String descricaoProblema, int quantidadeProblema){
 		this.descricaoProblema = descricaoProblema;
 
@@ -45,5 +52,9 @@ public class Problema {
 
 	public void setQuantidadeProblema(int quantidadeProblema) {
 		this.quantidadeProblema = quantidadeProblema;
+	}
+
+	public String getModeloCarro() {
+		return modeloCarro;
 	}
 }

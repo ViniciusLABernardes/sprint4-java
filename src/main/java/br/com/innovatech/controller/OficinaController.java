@@ -72,6 +72,17 @@ public class OficinaController {
                 .build();
     }
 
+    @GET
+    @Path("/problemas")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response lerProblemas(){
+        ArrayList<Problema> problemas = oficinaService.lerProblemas();
+        return Response
+                .status(Response.Status.OK)
+                .entity(problemas)
+                .build();
+    }
+
     @POST
     @Path("/inserir-orcamento")
     @Consumes(MediaType.APPLICATION_JSON)

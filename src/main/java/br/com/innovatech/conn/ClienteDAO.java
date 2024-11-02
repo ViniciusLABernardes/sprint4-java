@@ -137,6 +137,7 @@ public class ClienteDAO implements RepositorioCliente {
         }
     }
 
+
     public void realizarPagamento(Cartao cartao, String login, String modeloCarro, String descricaoProblema){
 
         String comandoInsercaoEndereco = "INSERT INTO TB_PAGAMENTO(cvv,id_cliente,id_problema,numero_cartao,validade) VALUES(?,?,?,?,?)";

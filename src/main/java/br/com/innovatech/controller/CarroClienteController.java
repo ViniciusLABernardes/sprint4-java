@@ -73,12 +73,15 @@ public class CarroClienteController {
 
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response deletarCarro(DeletarCarroRequest request){
-        CarroCliente carroCliente = request.getCarroCliente();
-        String login = request.getLogin();
-        carroClienteService.deletarCarro(carroCliente,login);
+          String modeloCarro = request.getModeloCarro();
+          String login = request.getLogin();
+          carroClienteService.deletarCarro(modeloCarro,login);
+
         return Response
                 .status(Response.Status.NO_CONTENT)
+                .entity("Método deletarCarro foi chamado")
                 .build();
 
     }

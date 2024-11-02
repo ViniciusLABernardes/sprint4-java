@@ -5,14 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DeletarCarroRequest {
     @JsonProperty
-    private CarroCliente carroCliente;
+    private String modeloCarro;
     @JsonProperty
     private String login;
-
-
-    public CarroCliente getCarroCliente() {
-        return carroCliente;
-    }
 
 
     public String getLogin() {
@@ -21,5 +16,13 @@ public class DeletarCarroRequest {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public String getModeloCarro() {
+        return modeloCarro;
+    }
+
+    public void setModeloCarro(String modeloCarro){
+        this.modeloCarro = modeloCarro;
     }
 }
