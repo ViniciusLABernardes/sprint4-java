@@ -23,12 +23,25 @@ public class ClienteController {
         clienteService = new ClienteService(clienteDAO);
     }
 
+    @OPTIONS
+    public Response handleCorsPreflight() {
+        return Response
+                .ok()
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Headers", "Content-Type, Accept, Authorization")
+                .header("Access-Control-Allow-Methods", "POST, OPTIONS")
+                .build();
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response inserirCliente(Cliente cliente){
         clienteService.inserirCliente(cliente);
         return Response
                 .status(Response.Status.CREATED)
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Headers", "Content-Type, Accept, Authorization")
+                .header("Access-Control-Allow-Methods", "POST, OPTIONS")
                 .build();
     }
 

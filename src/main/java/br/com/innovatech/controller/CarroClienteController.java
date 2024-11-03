@@ -24,7 +24,15 @@ public class CarroClienteController {
         carroDAO = new CarroClienteDAO();
         carroClienteService = new CarroClienteService(carroDAO);
     }
-
+    @OPTIONS
+    public Response handleCorsPreflight() {
+        return Response
+                .ok()
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Headers", "Content-Type, Accept, Authorization")
+                .header("Access-Control-Allow-Methods", "POST, OPTIONS")
+                .build();
+    }
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response inserirCarro(
