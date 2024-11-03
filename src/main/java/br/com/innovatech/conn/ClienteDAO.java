@@ -67,6 +67,8 @@ public class ClienteDAO implements RepositorioCliente {
         }
 
     }
+
+
     public boolean logarCliente(String login, String senha){
         String comandoVerificacao = "SELECT * FROM TB_LOGIN WHERE login = ? AND senha = ?";
 

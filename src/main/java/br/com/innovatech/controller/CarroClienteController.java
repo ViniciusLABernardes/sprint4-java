@@ -4,10 +4,8 @@ package br.com.innovatech.controller;
 import br.com.innovatech.conn.CarroClienteDAO;
 import br.com.innovatech.controller.dto.AttCarroClienteRequest;
 import br.com.innovatech.controller.dto.CarroClienteRequest;
-import br.com.innovatech.controller.dto.DeletarCarroRequest;
 import br.com.innovatech.controller.dto.InserirProblemaRequest;
 import br.com.innovatech.dominio.CarroCliente;
-import br.com.innovatech.dominio.Cliente;
 import br.com.innovatech.dominio.Problema;
 import br.com.innovatech.dominio.RepositorioCarro;
 import br.com.innovatech.service.CarroClienteService;
@@ -74,9 +72,8 @@ public class CarroClienteController {
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deletarCarro(DeletarCarroRequest request){
-          String modeloCarro = request.getModeloCarro();
-          String login = request.getLogin();
+    public Response deletarCarro(@QueryParam("modeloCarro") String modeloCarro, @QueryParam("login") String login){
+
           carroClienteService.deletarCarro(modeloCarro,login);
 
         return Response

@@ -319,6 +319,25 @@ public class OficinaDAO implements RepositorioOficina {
 
         }
 
+    public boolean oficinaVerificacao(String loginOficina, String cnpj){
+        String comandoVerificacao = "SELECT l.login_oficina, o.cnpj FROM TB_LOGIN_OFICINA l INNER JOIN TB_OFICINA o ON o.id_oficina = l.id_oficina " +
+                "WHERE l.login_oficina = ? AND c.cnpj LIKE = ?";
 
+        try{
+            PreparedStatement preparandoVerificacao = conexao.prepareStatement(comandoVerificacao);
+            preparandoVerificacao.setString(1,loginOficina);
+            preparandoVerificacao.setString(2,cnpj);
+            ResultSet resultSet = preparandoVerificacao.executeQuery();
+            if(resultSet.next()){
+                System.out.println("Oficina já existe no banco de dados");
+                return true;
+            }else{
+                return false;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 
 }

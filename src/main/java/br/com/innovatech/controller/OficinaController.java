@@ -38,15 +38,6 @@ public class OficinaController {
 
     }
 
-    @POST
-
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response inserirOficina(Oficina oficina){
-        oficinaService.inserirOficina(oficina);
-        return Response
-                .status(Response.Status.CREATED)
-                .build();
-    }
 
     @POST
     @Path("/inserir-peca")
