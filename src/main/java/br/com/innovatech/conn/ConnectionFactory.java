@@ -9,8 +9,8 @@ public class ConnectionFactory {
 
     }
     private String urlConexao = "jdbc:oracle:thin:@//oracle.fiap.com.br:1521/ORCL";
-    private String usuario = "RM554728";
-    private String senha = "080703";
+    private String usuario = "";
+    private String senha = "";
 
     public Connection pegarConexao(){
         try{
